@@ -3,16 +3,19 @@
 		This is a URL redirector. If it doesn't redirect, just go to the URL that it's supposed to redirect to.
 	</body>
 	<script>
+		function htmlEntities(str) {
+			return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+		} // function borrowed from https://stackoverflow.com/a/14130005
 		var urllol = window.location.href.split("?url=")[1];
 		var apilol = window.location.href.split("?apitest")[1];
 		if (urllol != undefined) {
 			window.location.replace("https://" + urllol);
-		} else if (apilol != undefined) {
+		} else if (apilol != undefined) { // borrowed from (not including the "innerHTML =" line) https://stackoverflow.com/a/4881836
 			var req = new XMLHttpRequest();
 			req.open('GET', document.location, false);
 			req.send(null);
-			var headers = req.getAllResponseHeaders().toLowerCase();
-			alert(headers);
+			var headers = req.getAllResponseHeaders();
+			document.body.innerHTML = htmlEntities(headers); // running this function so no script injection happens
 		} else {
 			document.body.innerHTML = "You need to set a URL to redirect to. Try <a href='?url=example.com'>this</a>";
 		}
