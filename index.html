@@ -4,10 +4,17 @@
 	</body>
 	<script>
 		var urllol = window.location.href.split("?url=")[1];
+		var apilol = window.location.href.split("?apitest")[1];
 		if (urllol != undefined) {
 			window.location.replace("https://" + urllol);
+		} else if (apilol != undefined) {
+			var req = new XMLHttpRequest();
+			req.open('GET', document.location, false);
+			req.send(null);
+			var headers = req.getAllResponseHeaders().toLowerCase();
+			alert(headers);
 		} else {
-			document.body.innerHTML = "You need to set a URL to redirect to. Try this: <a href='https://uiojaafdosijfafdssf.github.io?url=github.com/uiojaafdosijfafdssf'>'https://uiojaafdosijfafdssf.github.io?url=github.com/uiojaafdosijfafdssf'</a>";
-		};
+			document.body.innerHTML = "You need to set a URL to redirect to. Try <a href='?url=example.com'>this</a>";
+		}
 	</script>
 </html>
